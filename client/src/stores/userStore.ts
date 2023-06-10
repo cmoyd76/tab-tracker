@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import jwtDecode from 'jwt-decode';
+import router from '@/router';
 
 interface User {
   id: number;
@@ -30,7 +31,6 @@ export const useUserStore = defineStore('user', {
   actions: {
     async register(username: String, password: String): Promise<void> {
       try {
-        console.log(import.meta.env.VITE_API_URL + 'register');
         const response = await fetch(import.meta.env.VITE_API_URL + 'register', {
           method: 'POST',
           headers: {
@@ -94,6 +94,9 @@ export const useUserStore = defineStore('user', {
         // Save tokens to local storage
         localStorage.setItem('token', token);
         localStorage.setItem('refreshToken', refreshToken);
+
+        // redirect to previous url or default to home page
+        router.push({ name: 'dashboard' });
 
         console.log('Authentication successful');
       } catch (error: any) {
@@ -176,8 +179,4 @@ export const useUserStore = defineStore('user', {
     },
   },
   persist: true,
-  // Initialize the store on application startup
-  // beforeMount() {
-  //   this.loadAuthenticationState();
-  // },
 });

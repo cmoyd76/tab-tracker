@@ -13,32 +13,48 @@ const router = createRouter({
     },
     {
       path: '/register',
+      name: 'register',
       component: () => import('../views/authentication/RegistrationView.vue'),
+      meta: { middleware: 'public' },
     },
     {
       path: '/login',
+      name: 'login',
       component: () => import('../views/authentication/LoginView.vue'),
+      meta: { middleware: 'public' },
     },
     {
       path: '/dashboard',
+      name: 'dashboard',
       component: DashboardView,
-      meta: { requiresAuth: true },
+      meta: { middleware: 'auth' },
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+
   const userStore = useUserStore();
 
-  const isAuthenticated = (): boolean => {
-    return userStore.isAuthenticated;
-  };
-
-  if (to.meta.requiresAuth && !isAuthenticated()) {
-    next('/login');
+  if (to.meta.middleware != 'auth' && userStore.isAuthenticated) {
+    next({ path: '/dashboard' });
+  } else if (to.meta.middleware == 'auth') {
+    if (userStore.isAuthenticated) {
+      next();
+    } else {
+      next({ name: 'login' });
+    }
   } else {
     next();
   }
+
+  // Scroll page to top on every route change
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  });
 });
 
 export default router;
