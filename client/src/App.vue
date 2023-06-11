@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <router-link v-if="!isAuthenticated" to="/register">Register</router-link>
-    <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
+    <!-- <router-link v-if="!isAuthenticated" to="/register">Register</router-link>
+    <router-link v-if="!isAuthenticated" to="/login">Login</router-link> -->
     <router-link v-if="isAuthenticated" to="/dashboard">Dashboard</router-link>
     <div class="menu-item px-5" v-if="isAuthenticated">
       <a @click="logOut()" class="menu-link px-5"> Sign Out </a>

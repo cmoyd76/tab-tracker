@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // import HomeView from '../views/HomeView.vue'
 import DashboardView from '../views/dashboard/DashboardView.vue';
+import LandingPage from '@/views/LandingPage.vue';
 import { useUserStore } from '@/stores/userStore';
 
 const router = createRouter({
@@ -8,8 +9,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      redirect: 'login',
+      name: 'landing',
+      component: LandingPage,
     },
     {
       path: '/register',
