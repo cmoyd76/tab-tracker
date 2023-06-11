@@ -94,16 +94,21 @@
   </nav>
 </template>
 <script setup lang="ts">
+import { computed, ref } from 'vue';
+// import LoginForm2 from '@/components/LoginForm2.vue';
+
 // import PagesDropdown from '@/components/Dropdowns/PagesDropdown.vue';
 
 const navbarOpen: Boolean = false;
 
-// setNavbarOpen(): void {
-//     navbarOpen = !navbarOpen
-//   },
-//   },
-//   components: {
-//     PagesDropdown,
-//   },
-// };
+let isOpen = ref(false);
+
+const isModalVisible = computed(() => {
+  return isOpen;
+});
+
+const onToggle = () => {
+  isOpen.value = !isOpen.value;
+  console.log(isOpen.value, isModalVisible.value.value);
+};
 </script>

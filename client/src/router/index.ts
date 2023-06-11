@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/authentication/LoginView.vue'),
+      component: () => import('@/components/LoginForm.vue'),
       meta: { middleware: 'public' },
     },
     {

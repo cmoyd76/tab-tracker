@@ -4,6 +4,7 @@ import router from '@/router';
 
 interface User {
   id: number;
+  name: string;
   username: string;
   password: string;
 }
@@ -29,14 +30,14 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
-    async register(username: String, password: String): Promise<void> {
+    async register(name: string, username: String, password: String): Promise<void> {
       try {
         const response = await fetch(import.meta.env.VITE_API_URL + 'register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ name, username, password }),
         });
 
         if (!response.ok) {

@@ -1,13 +1,33 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+import github from '@/assets/img/github.svg';
+import google from '@/assets/img/google.svg';
+
+const userStore = useUserStore();
+
+const username = ref('');
+const password = ref('');
+
+const login = async () => {
+  try {
+    await userStore.authenticate(username.value, password.value);
+    console.log('Authentication successful');
+  } catch (error: any) {
+    console.error('Authentication failed:', error.message);
+  }
+};
+</script>
 <template>
   <div class="container mx-auto px-4 h-full">
     <div class="flex content-center items-center justify-center h-full">
-      <div class="w-full lg:w-6/12 px-4">
+      <div class="w-full lg:w-4/12 px-4">
         <div
           class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
         >
           <div class="rounded-t mb-0 px-6 py-6">
             <div class="text-center mb-3">
-              <h6 class="text-blueGray-500 text-sm font-bold">Sign up with</h6>
+              <h6 class="text-blueGray-500 text-sm font-bold">Sign in with</h6>
             </div>
             <div class="btn-wrapper text-center">
               <button
@@ -29,20 +49,9 @@
           </div>
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
             <div class="text-blueGray-400 text-center mb-3 font-bold">
-              <small>Or sign up with credentials</small>
+              <small>Or sign in with credentials</small>
             </div>
             <form>
-              <div class="relative w-full mb-3">
-                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                  Name
-                </label>
-                <input
-                  type="email"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Name"
-                />
-              </div>
-
               <div class="relative w-full mb-3">
                 <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                   Username
@@ -50,7 +59,7 @@
                 <input
                   type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Username"
+                  placeholder="username"
                   v-model="username"
                 />
               </div>
@@ -66,7 +75,6 @@
                   v-model="password"
                 />
               </div>
-
               <div>
                 <label class="inline-flex items-center cursor-pointer">
                   <input
@@ -74,10 +82,7 @@
                     type="checkbox"
                     class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
                   />
-                  <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                    I agree with the
-                    <a href="javascript:void(0)" class="text-emerald-500"> Privacy Policy </a>
-                  </span>
+                  <span class="ml-2 text-sm font-semibold text-blueGray-600"> Remember me </span>
                 </label>
               </div>
 
@@ -85,52 +90,27 @@
                 <button
                   class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="button"
-                  @click="register"
+                  @click="login"
                 >
-                  Create Account
+                  Sign In
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+        <div class="flex flex-wrap mt-6 relative">
+          <div class="w-1/2">
+            <a href="javascript:void(0)" class="text-blueGray-200">
+              <small>Forgot password?</small>
+            </a>
+          </div>
+          <div class="w-1/2 text-right">
+            <router-link to="/register" class="text-blueGray-200">
+              <small>Create new account</small>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import { useUserStore } from '@/stores/userStore';
-import github from '@/assets/img/github.svg';
-import google from '@/assets/img/google.svg';
-
-const userStore = useUserStore();
-const name = ref('');
-const username = ref('');
-const password = ref('');
-
-const register = async () => {
-  try {
-    await userStore.register(name.value, username.value, password.value);
-    console.log('Registration successful');
-  } catch (error: any) {
-    console.error('Registration failed In Form:', error.message);
-  }
-};
-
-// function capitalizeFirstLetter(inputString: string) {
-//   const words = inputString.split(' ');
-//   for (let i = 0; i < words.length; i++) {
-//     words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-//   }
-//   words.join(' ');
-//   // words
-//   //   .map((word) => {
-//   //     return word[0].toUpperCase() + word.substring(1);
-//   //   })
-//   //   .join(' ');
-
-//   console.log(words);
-//   return words.toString();
-// }
-</script>
